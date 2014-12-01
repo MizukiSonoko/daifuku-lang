@@ -1,7 +1,7 @@
 
 #include "Token.h"
 
-Token::Token(std::string n,std::string t){
+Token::Token(std::string t,std::string n){
     name = n;
     type = t;
 }
@@ -16,5 +16,8 @@ std::string Token::getName(){
 }
 std::string Token::getType(){
     return type;
+}
+std::string Token::getVal(){
+    return "<"+type+","+name+">";
 }
 

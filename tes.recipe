@@ -1,0 +1,10 @@
+
+(mochi():
+    put "Hello";
+    ();
+);
+
+main = (mochi(
+    put " World";
+));
+

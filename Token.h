@@ -13,6 +13,7 @@ class Token{
     void setType(std::string);
     std::string getName();
     std::string getType();
+    std::string getVal();
 };
 
 #endif
