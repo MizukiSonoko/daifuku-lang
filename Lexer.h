@@ -3,18 +3,20 @@
 
 #include "Token.h"
 
-#include <vector>
+#include <list>
 #include <fstream>
 
 class Lexer{
-    std::vector<Token> tokens;
+    std::list<Token> tokens;
     std::ifstream ifs;
    public:
-    Lexer(char*);
+    Lexer(){};
     ~Lexer();
+    void load(char*);
     void analyze();
     void put_result();
 
+    std::list<Token> getTokens();
     bool isLetter(char);
 };
 

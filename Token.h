@@ -8,6 +8,7 @@ class Token{
     //後々stringから変更する。prototype
     std::string type;
    public:
+    Token(){};
     Token(std::string,std::string);
     void setName(std::string);
     void setType(std::string);

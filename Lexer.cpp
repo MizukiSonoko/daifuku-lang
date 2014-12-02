@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Lexer::Lexer(char* filename){
+void Lexer::load(char* filename){
     ifs.open(filename);
     if(!ifs){
         cout<<"cook: error: no such file or directory: '"<<filename<<"'\n";
@@ -31,7 +31,7 @@ void Lexer::analyze(){
                 i++;
                 continue;
             case '(':
-                tokens.push_back(Token("LPARENT",")"));
+                tokens.push_back(Token("LPARENT","("));
                 break;
             case ')':
                 tokens.push_back(Token("RPARENT",")"));
@@ -48,6 +48,8 @@ void Lexer::analyze(){
             case '=':
                 tokens.push_back(Token("EQUAL","="));
                 break;
+            case '+':
+                tokens.push_back(Token("OPE_ADD","+"));
             default:
                 if(isLetter(data[i])){
                     string buffer = "";
@@ -56,6 +58,7 @@ void Lexer::analyze(){
                         i++;
                     }while(isLetter(data[i]));
                     tokens.push_back(Token("NAME",buffer));
+                    i--;
                 }else{
                     cout<<"Error! invalid charator:"<<data[i]<<endl;
                     return;
@@ -72,9 +75,16 @@ bool Lexer::isLetter(char c){
     return false;
 }
 
+list<Token> Lexer::getTokens(){
+    return tokens;
+}
+
 void Lexer::put_result(){
-    for(int i=0;i<tokens.size();i++){
-        cout<<tokens[i].getVal()<<endl;
+
+    list<Token>::iterator it = tokens.begin();
+    while(it!=tokens.end()){
+        cout<<(*it).getVal()<<endl;
+        it++;
     }
 }
 

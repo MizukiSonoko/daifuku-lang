@@ -1,10 +1,10 @@
 
 (mochi():
-    put "Hello";
+    int hoge;
     ();
 );
 
-main = (mochi(
-    put " World";
+(mochi(
+    hoge = piyo + payo;
 ));
 
