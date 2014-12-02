@@ -8,14 +8,20 @@ using namespace std;
 
 Perser::Perser(std::list<Token> _tokens){
     tokens = _tokens;
-    curToken = tokens.front();
-    tokens.pop_front();
- 
+    buf_index = 0;
+    for(int i=0;i<BUF_MAX;i++){
+        nextToken();
+    }
     cout<<"[log] perser starts"<<endl;
 }
 
+Token Perser::LT(int i){
+    return curTokens[(buf_index+i-1)%BUF_MAX];
+}
+
 void Perser::match(string type){
-    if(curToken.getType()==type){
+    //cout<<"match("<<type<<","<<LT(1).getType()<<"("<<LT(1).getName()<<"))"<<endl;
+    if(LT(1).getType()==type){
         nextToken();
     }else{
         throw "Error no match '"+type+"'";
@@ -33,16 +39,17 @@ void Perser::perse(){
 void Perser::daifuku(){
     cout<<"->[log] daifuku"<<endl;
     match("LPARENT");match("NAME");match("LPARENT");
-    if(curToken.getType()=="RPARENT"){
+    if(LT(1).getType()=="RPARENT"&&LT(2).getType()=="COLON"){
         cout<<"[log]kawa (o)"<<endl;
         kawa();
-    }else if(curToken.getType()=="NAME"){
+    }else if(LT(1).getType()=="NAME"){
         cout<<"[log]anko O"<<endl;
         anko();
+        match("RPARENT");
     }
     match("RPARENT");
     match("SEMICOLON");
-    if(curToken.getType()=="EOF"){
+    if(LT(1).getType()=="EOF"){
         cout<<"EOF"<<endl;
     }else{
         daifuku();
@@ -62,15 +69,15 @@ void Perser::anko(){
 
 void Perser::stat(){
     cout<<"->[log] stat"<<endl;
-    if(curToken.getType()=="NAME"){
+    if(LT(1).getType()=="NAME"){
         match("NAME");
-        if(curToken.getType()=="NAME"){
+        if(LT(1).getType()=="NAME"){
             define();
             stat();
-        }else if(curToken.getType()=="EQUAL"){
+        }else if(LT(1).getType()=="EQUAL"){
             add();
         }
-    }else if(curToken.getType()=="LPARENT"){
+    }else if(LT(1).getType()=="LPARENT"){
         cout<<"->[log]  ()"<<endl;
         match("LPARENT");
         match("RPARENT");
@@ -94,11 +101,16 @@ void Perser::add(){
 
 void Perser::nextToken(){
     if(!tokens.empty()){
-        curToken = tokens.front();
+        //cout<<"nextToken:"<<tokens.front().getType()<<endl;
+        curTokens[buf_index] = tokens.front();
+        buf_index = (buf_index + 1)%BUF_MAX;
         tokens.pop_front();
     }else{
-        cout<<"[log] successful!"<<endl;
-        exit(0);
+        if(buf_index<BUF_MAX){
+            buf_index++;
+        }else{
+            throw "Why file finished? ["+curTokens[0].getType()+"]";
+        }
     }
 }
 

@@ -50,6 +50,7 @@ void Lexer::analyze(){
                 break;
             case '+':
                 tokens.push_back(Token("OPE_ADD","+"));
+                break;
             default:
                 if(isLetter(data[i])){
                     string buffer = "";

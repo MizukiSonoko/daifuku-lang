@@ -8,3 +8,7 @@
     hoge = piyo + payo;
 ));
 
+(anko():
+ int no;
+);
+
