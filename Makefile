@@ -18,4 +18,4 @@ test.o: test.cpp
 		$(CC) -Wall -c test.cpp
 
 clean:
-		rm -f token.o lexer.o perser.o test.o
+		rm -f Token.o Lexer.o Perser.o Test.o
