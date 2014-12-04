@@ -1,12 +1,8 @@
 #include "Perser.h"
 
-#include "Token.h"
-
 #include <iostream>
 #include <string>
 #include <cstdlib>
-
-#include <stdexcept>
 
 using namespace std;
 
@@ -24,11 +20,11 @@ Token Perser::LT(int i){
 }
 
 void Perser::match(Token::Type type){
+    //cout<<"match("a<<typae<<","<<LT(1).getType()<<"("<<LT(1).getName()<<"))"<<endl;
     if(LT(1).getType()==type){
         nextToken();
     }else{
-        //TODO
-        throw "Error no match ";
+        throw "Error no match '"+type+"'";
     }
 }
 
@@ -37,25 +33,24 @@ void Perser::perse(){
         daifuku();
     }catch(string e){
         cout<<"[Error]"<<e<<endl;
-    }catch(const char* e){
-        cout<<"[Error]"<<e<<endl; 
     }
+
 }
 
 void Perser::daifuku(){
     cout<<"->[log] daifuku"<<endl;
-    match(Token::LPARENT);match(Token::NAME);match(Token::LPARENT);
-    if(LT(1).getType()==Token::RPARENT&&LT(2).getType()==Token::COLON){
+    match("LPARENT");match("NAME");match("LPARENT");
+    if(LT(1).getType()=="RPARENT"&&LT(2).getType()=="COLON"){
         cout<<"[log]kawa (o)"<<endl;
         kawa();
-    }else if(LT(1).getType()==Token::NAME){
+    }else if(LT(1).getType()=="NAME"){
         cout<<"[log]anko O"<<endl;
         anko();
-        match(Token::RPARENT);
+        match("RPARENT");
     }
-    match(Token::RPARENT);
-    match(Token::SEMICOLON);
-    if(LT(1).getType()==Token::FIN){
+    match("RPARENT");
+    match("SEMICOLON");
+    if(LT(1).getType()=="EOF"){
         cout<<"EOF"<<endl;
     }else{
         daifuku();
@@ -64,9 +59,8 @@ void Perser::daifuku(){
 
 /*-- TODO --*/
 void Perser::kawa(){
-    match(Token::RPARENT);
-
-    match(Token::COLON);
+    match("RPARENT");
+    match("COLON");
     stat();
 }
 void Perser::anko(){
@@ -76,39 +70,39 @@ void Perser::anko(){
 
 void Perser::stat(){
     cout<<"->[log] stat"<<endl;
-    if(LT(1).getType()==Token::NAME){
-        match(Token::NAME);
-        if(LT(1).getType()==Token::NAME){
+    if(LT(1).getType()=="NAME"){
+        match("NAME");
+        if(LT(1).getType()=="NAME"){
             define();
             stat();
-        }else if(LT(1).getType()==Token::EQUAL){
+        }else if(LT(1).getType()=="EQUAL"){
             add();
         }
-    }else if(LT(1).getType()==Token::LPARENT){
+    }else if(LT(1).getType()=="LPARENT"){
         cout<<"->[log]  ()"<<endl;
-        match(Token::LPARENT);
-        match(Token::RPARENT);
-        match(Token::SEMICOLON);
+        match("LPARENT");
+        match("RPARENT");
+        match("SEMICOLON");
         stat();
     }
 }
 void Perser::define(){
     cout<<"->[log]  define"<<endl;
-    match(Token::NAME);
-    match(Token::SEMICOLON);
+    match("NAME");
+    match("SEMICOLON");
 }
 void Perser::add(){
     cout<<"->[log]  add"<<endl;
-    match(Token::EQUAL);
-    match(Token::NAME);
-    match(Token::OPE_ADD);
-    match(Token::NAME);
-    match(Token::SEMICOLON);
+    match("EQUAL");
+    match("NAME");
+    match("OPE_ADD");
+    match("NAME");
+    match("SEMICOLON");
 }
 
 void Perser::nextToken(){
     if(!tokens.empty()){
-    //  cout<<"nextToken:"<<tokens.front().getName()<<endl;
+        //cout<<"nextToken:"<<tokens.front().getType()<<endl;
         curTokens[buf_index] = tokens.front();
         buf_index = (buf_index + 1)%BUF_MAX;
         tokens.pop_front();
@@ -116,8 +110,7 @@ void Perser::nextToken(){
         if(buf_index<BUF_MAX){
             buf_index++;
         }else{
-            //TODO
-            throw "Why file finished? ";
+            throw "Why file finished? ["+curTokens[0].getType()+"]";
         }
     }
 }

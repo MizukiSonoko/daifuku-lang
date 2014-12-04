@@ -19,7 +19,7 @@ class Perser{
    private:
     Token LT(int);
     void nextToken();
-    void match(std::string type);
+    void match(Token::Type);
 
     void daifuku();
     void kawa();

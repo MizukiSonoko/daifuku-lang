@@ -31,25 +31,25 @@ void Lexer::analyze(){
                 i++;
                 continue;
             case '(':
-                tokens.push_back(Token("LPARENT","("));
+                tokens.push_back(Token(Token::LPARENT,"("));
                 break;
             case ')':
-                tokens.push_back(Token("RPARENT",")"));
+                tokens.push_back(Token(Token::RPARENT,")"));
                 break;
             case ';':
-                tokens.push_back(Token("SEMICOLON",";"));
+                tokens.push_back(Token(Token::SEMICOLON,";"));
                 break;
             case ':':
-                tokens.push_back(Token("COLON",":"));
+                tokens.push_back(Token(Token::COLON,":"));
                 break;
             case '"':
-                tokens.push_back(Token("DQUOTATION","\""));
+                tokens.push_back(Token(Token::DQUOTATION,"\""));
                 break;
             case '=':
-                tokens.push_back(Token("EQUAL","="));
+                tokens.push_back(Token(Token::EQUAL,"="));
                 break;
             case '+':
-                tokens.push_back(Token("OPE_ADD","+"));
+                tokens.push_back(Token(Token::OPE_ADD,"+"));
                 break;
             default:
                 if(isLetter(data[i])){
@@ -58,7 +58,7 @@ void Lexer::analyze(){
                         buffer += data[i];
                         i++;
                     }while(isLetter(data[i]));
-                    tokens.push_back(Token("NAME",buffer));
+                    tokens.push_back(Token(Token::NAME,buffer));
                     i--;
                 }else{
                     cout<<"Error! invalid charator:"<<data[i]<<endl;
@@ -67,7 +67,7 @@ void Lexer::analyze(){
         }
         i++;
     }
-    tokens.push_back(Token("EOF","<EOF>"));
+    tokens.push_back(Token(Token::FIN,"<EOF>"));
 }
 bool Lexer::isLetter(char c){
     if((c>='a'&&c<='z')||

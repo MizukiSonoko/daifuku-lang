@@ -4,17 +4,31 @@
 #include <string>
 
 class Token{
-    std::string name;
-    //後々stringから変更する。prototype
-    std::string type;
    public:
+
+    enum Type{
+        FIN,
+        NAME,
+        IDENTIFIER,
+        LPARENT,
+        RPARENT,
+        SEMICOLON,
+        COLON,
+        DQUOTATION,
+        EQUAL,
+        OPE_ADD, 
+    };
+
     Token(){};
-    Token(std::string,std::string);
+    Token(Type,std::string);
     void setName(std::string);
-    void setType(std::string);
+    void setType(Type);
     std::string getName();
-    std::string getType();
+    Type getType();
     std::string getVal();
+  private:
+    Type type; 
+    std::string name;
 };
 
 #endif

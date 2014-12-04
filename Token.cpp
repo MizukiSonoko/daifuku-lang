@@ -1,23 +1,24 @@
 
 #include "Token.h"
+#include <string>
 
-Token::Token(std::string t,std::string n){
+Token::Token(Token::Type t,std::string n){
     name = n;
     type = t;
 }
 void Token::setName(std::string n){
     name = n;
 }
-void Token::setType(std::string t){
+void Token::setType(Type t){
     type = t;
 }
 std::string Token::getName(){
     return name;
 }
-std::string Token::getType(){
+Token::Type Token::getType(){
     return type;
 }
 std::string Token::getVal(){
-    return "<"+type+","+name+">";
+    return "<"+name+">";
 }
 
