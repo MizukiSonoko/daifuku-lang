@@ -10,17 +10,67 @@
 
 using namespace std;
 
-Perser::Perser(std::list<Token> _tokens){
+Perser::Perser(std::list<Token> _tokens) : headTokens(0){
     tokens = _tokens;
     buf_index = 0;
-    for(int i=0;i<BUF_MAX;i++){
-        nextToken();
-    }
     cout<<"[log] perser starts"<<endl;
 }
 
 Token Perser::LT(int i){
-    return curTokens[(buf_index+i-1)%BUF_MAX];
+    cout<<"~[log] LT("<<i<<")"<<endl;
+    sync(i);
+    cout<<"LT index:"<<buf_index+i-1<<endl;
+    return headTokens[buf_index+i-1];
+}
+
+
+bool Perser::spec_object(){
+    cout<<"~[log] spec_object"<<endl;
+    bool success = true;
+    mark();
+    try{
+        match(Token::NAME);
+    }catch(...){
+        success = false; 
+    } 
+    release();
+    return success;
+}
+
+void Perser::object(){
+    match(Token::NAME);
+}
+void Perser::sync(int i){
+    cout<<"~[log] sync("<<i<<")"<<endl;
+    cout<<"~~[log] tokens:"<<headTokens.size()<<" buf:"<<buf_index<<endl;
+    cout<<"<"<<buf_index +i<<","<<headTokens.size()<<">"<<endl;
+    if(buf_index +i  > headTokens.size()  ){
+        cout<<"~~[log] buf_index:"<<buf_index<<endl;
+        int n = (buf_index + i) - (headTokens.size());
+        fill(n);
+    }
+}
+void Perser::fill(int n){
+    cout<<"~[log] fill("<<n<<")"<<endl;
+    for(int i=0;i<n;i++){
+        headTokens.push_back(tokens.front()); 
+    }
+}
+int Perser::mark(){
+    cout<<"~[log] mark"<<endl;
+    markers.push_back(buf_index);
+    return buf_index;    
+}
+void Perser::release(){
+    int marker = markers.front();
+    markers.pop_front();
+    seek(marker);
+}
+void Perser::seek(int index){
+    buf_index = index;
+}
+bool Perser::isSpec(){
+    return markers.size() > 0;
 }
 
 void Perser::match(Token::Type type){
@@ -44,81 +94,31 @@ void Perser::perse(){
 
 void Perser::daifuku(){
     cout<<"->[log] daifuku"<<endl;
-    match(Token::LPARENT);match(Token::NAME);match(Token::LPARENT);
-    if(LT(1).getType()==Token::RPARENT&&LT(2).getType()==Token::COLON){
+    if(spec_object()){
         cout<<"[log]kawa (o)"<<endl;
-        kawa();
-    }else if(LT(1).getType()==Token::NAME){
-        cout<<"[log]anko O"<<endl;
-        anko();
-        match(Token::RPARENT);
-    }
-    match(Token::RPARENT);
-    match(Token::SEMICOLON);
-    if(LT(1).getType()==Token::FIN){
-        cout<<"EOF"<<endl;
-    }else{
-        daifuku();
     }
 }
 
 /*-- TODO --*/
 void Perser::kawa(){
-    match(Token::RPARENT);
-
-    match(Token::COLON);
-    stat();
 }
 void Perser::anko(){
-    stat();
 }
 /*----------*/
 
 void Perser::stat(){
-    cout<<"->[log] stat"<<endl;
-    if(LT(1).getType()==Token::NAME){
-        match(Token::NAME);
-        if(LT(1).getType()==Token::NAME){
-            define();
-            stat();
-        }else if(LT(1).getType()==Token::EQUAL){
-            add();
-        }
-    }else if(LT(1).getType()==Token::LPARENT){
-        cout<<"->[log]  ()"<<endl;
-        match(Token::LPARENT);
-        match(Token::RPARENT);
-        match(Token::SEMICOLON);
-        stat();
-    }
 }
 void Perser::define(){
-    cout<<"->[log]  define"<<endl;
-    match(Token::NAME);
-    match(Token::SEMICOLON);
 }
 void Perser::add(){
-    cout<<"->[log]  add"<<endl;
-    match(Token::EQUAL);
-    match(Token::NAME);
-    match(Token::OPE_ADD);
-    match(Token::NAME);
-    match(Token::SEMICOLON);
 }
 
 void Perser::nextToken(){
-    if(!tokens.empty()){
-    //  cout<<"nextToken:"<<tokens.front().getName()<<endl;
-        curTokens[buf_index] = tokens.front();
-        buf_index = (buf_index + 1)%BUF_MAX;
-        tokens.pop_front();
-    }else{
-        if(buf_index<BUF_MAX){
-            buf_index++;
-        }else{
-            //TODO
-            throw "Why file finished? ";
-        }
+    buf_index++;
+    if(buf_index ==headTokens.size() && !isSpec()){
+        buf_index = 0;
+        headTokens.clear(); 
     }
+    sync(1);
 }
 

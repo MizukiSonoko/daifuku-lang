@@ -2,6 +2,7 @@
 #define PERSER_H
 
 #include <list>
+#include <vector>
 #include <string>
 
 #include "Token.h"
@@ -11,7 +12,8 @@
 class Perser{
 
     std::list<Token> tokens;
-    Token curTokens[BUF_MAX];
+    std::list<int>   markers;
+    std::vector<Token> headTokens;
     int buf_index;
    public:
     Perser(std::list<Token>);
@@ -20,6 +22,16 @@ class Perser{
     Token LT(int);
     void nextToken();
     void match(Token::Type);
+    void sync(int);
+    void fill(int);
+    int mark();
+    void seek(int);
+    bool isSpec();
+    void release();
+
+
+    bool spec_object();
+    void object();
 
     void daifuku();
     void kawa();
