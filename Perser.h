@@ -30,10 +30,15 @@ class Perser{
     void release();
 
 
-    bool spec_object();
-    void object();
+    bool spec_label();
+    void label();
 
+    bool spec_box();
+    void box();
+
+    bool spec_daifuku();
     void daifuku();
+
     void kawa();
     void anko();
     void stat();

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Perser::Perser(std::list<Token> _tokens) : headTokens(0){
+Perser::Perser(std::list<Token> _tokens){
     tokens = _tokens;
     buf_index = 0;
     cout<<"[log] perser starts"<<endl;
@@ -23,27 +23,9 @@ Token Perser::LT(int i){
     return headTokens[buf_index+i-1];
 }
 
-
-bool Perser::spec_object(){
-    cout<<"~[log] spec_object"<<endl;
-    bool success = true;
-    mark();
-    try{
-        match(Token::NAME);
-    }catch(...){
-        success = false; 
-    } 
-    release();
-    return success;
-}
-
-void Perser::object(){
-    match(Token::NAME);
-}
 void Perser::sync(int i){
     cout<<"~[log] sync("<<i<<")"<<endl;
     cout<<"~~[log] tokens:"<<headTokens.size()<<" buf:"<<buf_index<<endl;
-    cout<<"<"<<buf_index +i<<","<<headTokens.size()<<">"<<endl;
     if(buf_index +i  > headTokens.size()  ){
         cout<<"~~[log] buf_index:"<<buf_index<<endl;
         int n = (buf_index + i) - (headTokens.size());
@@ -84,7 +66,13 @@ void Perser::match(Token::Type type){
 
 void Perser::perse(){
     try{
-        daifuku();
+        if(spec_label()){
+        
+        }else if(spec_box()){
+        
+        }else if(spec_daifuku()){
+            daifuku();match(Token::SEMICOLON); 
+        }
     }catch(string e){
         cout<<"[Error]"<<e<<endl;
     }catch(const char* e){
@@ -92,11 +80,49 @@ void Perser::perse(){
     }
 }
 
+bool Perser::spec_label(){
+    bool success = true;
+    mark();
+    try{
+         //TODO
+    }catch(...){
+        success = false; 
+    }
+    release();
+    return success;
+}
+void Perser::label(){
+    //TODO   
+}
+
+bool Perser::spec_box(){
+    bool success = true;
+    mark();
+    try{
+        //TODO    
+    }catch(...){
+        success = false; 
+    }
+    release();
+    return success;
+}
+void Perser::box(){
+    //TODO
+}
+bool Perser::spec_daifuku(){
+    bool success = true;
+    mark();
+    try{
+        //TODO
+    }catch(...){
+        success = false; 
+    }
+    release();
+    return success;
+}
 void Perser::daifuku(){
     cout<<"->[log] daifuku"<<endl;
-    if(spec_object()){
-        cout<<"[log]kawa (o)"<<endl;
-    }
+    //TODO
 }
 
 /*-- TODO --*/
