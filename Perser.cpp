@@ -44,6 +44,7 @@ int Perser::mark(){
     return buf_index;    
 }
 void Perser::release(){
+    cout<<"[log] release"<<endl;
     int marker = markers.front();
     markers.pop_front();
     seek(marker);
@@ -67,10 +68,13 @@ void Perser::match(Token::Type type){
 void Perser::perse(){
     try{
         if(spec_label()){
-        
+            cout<<"[log] label"<<endl;
+            label();match(Token::SEMICOLON);
         }else if(spec_box()){
-        
+            cout<<"box"<<endl;
+            box();match(Token::SEMICOLON);
         }else if(spec_daifuku()){
+            cout<<"daifuku"<<endl;
             daifuku();match(Token::SEMICOLON); 
         }
     }catch(string e){
@@ -84,6 +88,7 @@ bool Perser::spec_label(){
     bool success = true;
     mark();
     try{
+        match(Token::NAME);
          //TODO
     }catch(...){
         success = false; 
@@ -99,6 +104,7 @@ bool Perser::spec_box(){
     bool success = true;
     mark();
     try{
+        match(Token::LBRACKET);
         //TODO    
     }catch(...){
         success = false; 
@@ -113,6 +119,7 @@ bool Perser::spec_daifuku(){
     bool success = true;
     mark();
     try{
+        match(Token::LPARENT);
         //TODO
     }catch(...){
         success = false; 
@@ -122,6 +129,10 @@ bool Perser::spec_daifuku(){
 }
 void Perser::daifuku(){
     cout<<"->[log] daifuku"<<endl;
+    match(Token::NAME);
+    match(Token::LPARENT);
+    match(Token::RPARENT);
+
     //TODO
 }
 

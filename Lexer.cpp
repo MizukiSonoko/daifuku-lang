@@ -36,6 +36,12 @@ void Lexer::analyze(){
             case ')':
                 tokens.push_back(Token(Token::RPARENT,")"));
                 break;
+            case ']':
+                tokens.push_back(Token(Token::RBRACKET,"]"));
+                break;
+            case '[':
+                tokens.push_back(Token(Token::LBRACKET,"["));
+                break;
             case ';':
                 tokens.push_back(Token(Token::SEMICOLON,";"));
                 break;

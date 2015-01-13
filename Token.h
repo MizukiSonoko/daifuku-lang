@@ -12,6 +12,8 @@ class Token{
         IDENTIFIER,
         LPARENT,
         RPARENT,
+        RBRACKET,
+        LBRACKET,
         SEMICOLON,
         COLON,
         DQUOTATION,
