@@ -9,6 +9,7 @@ class Token{
     enum Type{
         FIN,
         NAME,
+        NUMBER,
         IDENTIFIER,
         LPARENT,
         RPARENT,
@@ -19,7 +20,12 @@ class Token{
         DQUOTATION,
         EQUAL,
         OPE_ADD, 
-    };
+        COMMA,
+        PERIOD,
+        BAR,
+        RANGLE,
+        LANGLE 
+   };
 
     Token(){};
     Token(Type,std::string);

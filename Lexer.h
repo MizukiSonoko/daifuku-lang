@@ -18,6 +18,7 @@ class Lexer{
 
     std::list<Token> getTokens();
     bool isLetter(char);
+    bool isNumber(char);
 };
 
 #endif

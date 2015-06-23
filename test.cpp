@@ -14,7 +14,7 @@ int main(int argc,char* argv[]){
         cout<<"cook: error: no input files"<<endl;
         return 1;
     }
-    Perser perser(lexer.getTokens());
-    perser.perse();
+    lexer.getTokens();
+    //perser.perse();
     return 0;
 }

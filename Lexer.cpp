@@ -5,15 +5,13 @@
 #include <string>
 #include <iterator>
 
-using namespace std;
-
 void Lexer::load(char* filename){
     ifs.open(filename);
     if(!ifs){
-        cout<<"cook: error: no such file or directory: '"<<filename<<"'\n";
+        std::cout<<"cook: error: no such file or directory: '"<<filename<<"'\n";
     }
     
-    cout<<"[log]start analys\n";
+    std::cout<<"[log]start analys\n";
     analyze();
 }
 Lexer::~Lexer(){
@@ -21,14 +19,28 @@ Lexer::~Lexer(){
 }
 
 void Lexer::analyze(){
-    istreambuf_iterator<char> it(ifs);
-    istreambuf_iterator<char> last;
-    string data(it, last);  
-    for(int i=0;i<data.size();){
+    std::istreambuf_iterator<char> it(ifs);
+    std::istreambuf_iterator<char> last;
+    std::string data(it, last); 
+    std::string buffer = ""; 
+
+    for(int i=0;i<data.size();i++){
+
+        if(isLetter(data[i]) || isNumber(data[i])){
+            buffer += data[i];
+            continue;
+        } else if(!buffer.empty()){
+            if(isNumber(buffer[i])){
+                tokens.push_back(Token(Token::NUMBER,buffer));
+            } else {
+                tokens.push_back(Token(Token::NAME,  buffer));
+            }
+            buffer.clear();
+        }
+
         switch(data[i]){
-            case ' ': case '\t':
-            case '\n':case '\r':
-                i++;
+            case  ' ': case '\t':
+            case '\n': case '\r':
                 continue;
             case '(':
                 tokens.push_back(Token(Token::LPARENT,"("));
@@ -41,6 +53,12 @@ void Lexer::analyze(){
                 break;
             case '[':
                 tokens.push_back(Token(Token::LBRACKET,"["));
+                break;
+            case '<':
+                tokens.push_back(Token(Token::LANGLE,"<"));
+                break;
+            case '>':
+                tokens.push_back(Token(Token::RANGLE,">"));
                 break;
             case ';':
                 tokens.push_back(Token(Token::SEMICOLON,";"));
@@ -57,40 +75,52 @@ void Lexer::analyze(){
             case '+':
                 tokens.push_back(Token(Token::OPE_ADD,"+"));
                 break;
+            case '-':
+                tokens.push_back(Token(Token::BAR,"-"));
+                break;
+            case '.':
+                tokens.push_back(Token(Token::PERIOD,"."));
+                break;
+            case ',':
+                tokens.push_back(Token(Token::COMMA,","));
+                break;
             default:
-                if(isLetter(data[i])){
-                    string buffer = "";
-                    do{
-                        buffer += data[i];
-                        i++;
-                    }while(isLetter(data[i]));
-                    tokens.push_back(Token(Token::NAME,buffer));
-                    i--;
+                if(!buffer.empty()){
+                    if(isNumber(buffer[i])){
+                        tokens.push_back(Token(Token::NUMBER,buffer));
+                    } else {
+                        tokens.push_back(Token(Token::NAME,  buffer));
+                    }
+                    buffer.clear();
                 }else{
-                    cout<<"Error! invalid charator:"<<data[i]<<endl;
+                    std::cout<<"Error! invalid charator:"<<data[i]<<std::endl;
                     return;
                 }
         }
-        i++;
     }
     tokens.push_back(Token(Token::FIN,"<EOF>"));
 }
 bool Lexer::isLetter(char c){
     if((c>='a'&&c<='z')||
-       (c>='A'&&c<='Z'))
+       (c>='A'&&c<='Z')||
+       (c=='!'||c=='#'))
         return true;
     return false;
 }
-
-list<Token> Lexer::getTokens(){
+bool Lexer::isNumber(char c){
+    if(c>='0'&&c<='9')
+        return true;
+    return false;
+}
+std::list<Token> Lexer::getTokens(){
     return tokens;
 }
 
 void Lexer::put_result(){
 
-    list<Token>::iterator it = tokens.begin();
+    std::list<Token>::iterator it = tokens.begin();
     while(it!=tokens.end()){
-        cout<<(*it).getVal()<<endl;
+        std::cout<<(*it).getVal()<<std::endl;
         it++;
     }
 }
