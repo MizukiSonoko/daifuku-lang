@@ -2,6 +2,7 @@
 #define TOKEN_H
 
 #include <string>
+#include <ostream>
 
 class Token{
    public:
@@ -35,6 +36,9 @@ class Token{
     Type getType();
     std::string getVal();
   private:
+    friend std::ostream& operator<<(std::ostream& os,Token& token);  
+    friend std::ostream& operator<<(std::ostream& os,const Token& token);  
+
     Type type; 
     std::string name;
 };

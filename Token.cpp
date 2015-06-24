@@ -18,7 +18,11 @@ std::string Token::getName(){
 Token::Type Token::getType(){
     return type;
 }
-std::string Token::getVal(){
-    return "<"+name+">";
+std::ostream& operator<<(std::ostream& os,Token& token){
+    os <<"<"<< token.name <<">";
+    return os;
 }
-
+std::ostream& operator<<(std::ostream& os,const Token& token){
+    os <<"<"<< token.name <<">";
+    return os;
+}
