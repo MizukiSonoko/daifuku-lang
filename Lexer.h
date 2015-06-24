@@ -12,8 +12,11 @@ class Lexer{
     std::ifstream ifs;
 
     std::ifstream conf;
+
+    int debug;
+    void log(std::string);
    public:
-    Lexer(){};
+    Lexer(int d):debug(d){};
     ~Lexer();
     void load(char*);
     void analyze();

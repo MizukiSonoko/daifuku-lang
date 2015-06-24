@@ -2,16 +2,16 @@
 #include "Perser.h"
 
 bool Perser::speculate_Statement(){
-    std::cout<<"[log] speculate_statement\n";
+    log("[log] speculate_statement");
     bool success = true;
     mark();
     bool b1 = match(Token::LBRACKET);
-    std::cout<<"buf_index1:"<<buf_index<<"\n";
+    log("buf_index1:"+ std::to_string(buf_index));
     bool b2 = VariableDecl();              
-    std::cout<<"buf_index2:"<<buf_index<<"\n";
+    log("buf_index2:"+ std::to_string(buf_index));
     bool b3 = match(Token::RBRACKET);
-    std::cout<<"buf_index3:"<<buf_index<<"\n";
-    std::cout<<"b1:"<<b1<<" b2:"<<b2<<" b3:"<<b3<<"\n";
+    log("buf_index3:"+ std::to_string(buf_index));
+    log("b1:"+ std::to_string(b1) +" b2:"+ std::to_string(b2) +" b3:"+ std::to_string(b3));
     if(!(b1&&b2&&b3)){
    /* if(!(
        match(Token::LBRACKET)&&
@@ -22,12 +22,12 @@ bool Perser::speculate_Statement(){
         success = false;
     }
     release();
-    std::cout<<"[log]############ speculate_statement result:"<<success<<"\n";
+    log("[log]############ speculate_statement result:"+ std::to_string(success));
     return success;
 }
 
 bool Perser::speculate_VariableDecl(){
-    std::cout<<"[log] speculate_variable_decl\n";
+    log("[log] speculate_variable_decl");
     bool success = true;
     mark();
     if(!(
@@ -38,7 +38,7 @@ bool Perser::speculate_VariableDecl(){
         success = false;
     }
     release();
-    std::cout<<"[log]##########  speculate_variable_decl result:"<<success<<"\n";
+    log("[log]##########  speculate_variable_decl result:"+ std::to_string(success));
     return success;
 }
 

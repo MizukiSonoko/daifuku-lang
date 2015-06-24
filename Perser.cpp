@@ -4,7 +4,7 @@
 #include "ast/VariableDeclAST.h"
 
 bool Perser::perse(){
-    std::cout<<"[log] start perse \n";
+    log("[log] start perse");
     Ast = new TranslationUnitAST();
     while(true){ 
         if(! TranslationUnit()){
@@ -17,9 +17,9 @@ bool Perser::perse(){
     return false;
 }
 bool Perser::TranslationUnit(){
-    std::cout<<"[log] TranslationUnit\n";
+    log("[log] TranslationUnit");
     if(speculate_Statement()){
-        std::cout<<"[log] Statement\n";
+        log("[log] Statement");
         match(Token::LBRACKET);
         VariableDecl();       
         match(Token::RBRACKET);
@@ -32,9 +32,9 @@ bool Perser::FunctionStmt(){
     return true;
 }
 bool Perser::VariableDecl(){
-    std::cout<<"[log] VariableDecl\n";
+    log("[log] VariableDecl");
     if(speculate_VariableDecl()){
-        std::cout<<"[log] VariableDecl_core\n";
+        log("[log] VariableDecl_core");
         match(Token::IDENTIFIER);
         match(Token::EQUAL);
         match(Token::NUMBER);

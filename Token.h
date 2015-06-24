@@ -34,7 +34,6 @@ class Token{
     void setType(Type);
     std::string getName();
     Type getType();
-    std::string getVal();
   private:
     friend std::ostream& operator<<(std::ostream& os,Token& token);  
     friend std::ostream& operator<<(std::ostream& os,const Token& token);  

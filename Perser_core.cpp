@@ -8,52 +8,57 @@
 
 #include <stdexcept>
 
-using namespace std;
 
-Perser::Perser(std::list<Token> _tokens){
+Perser::Perser(std::list<Token> _tokens, int _debug){
     tokens = _tokens;
+    debug  = _debug; 
     buf_index = 0;
-    cout<<"[log] perser starts"<<endl;
+    log("[log] perser starts");
+}
+void Perser::log(std::string s){
+    if(debug){
+        std::cout<< s << std::endl;
+    }
 }
 
 Token Perser::LT(int i){
-    cout<<"~[log] LT("<<i<<")"<<endl;
+    log("~[log] LT("+ std::to_string(i) +")");
     sync(i);
-    cout<<"~LT buf_index:"<<buf_index<<"\n";
-    cout<<"~LT index:"<<buf_index+i-1<<" val:"<<headTokens[buf_index+i-1]<<"\n";
+    log("~LT buf_index:"+ std::to_string(buf_index) );
+    log("~LT index:"+ std::to_string(buf_index+i-1) +" val:"+ headTokens[buf_index+i-1].getName());
     return headTokens[buf_index+i-1];
 }
 
 void Perser::sync(int i){
-    cout<<"~[log] sync("<<i<<")\n";
-    cout<<"~~[log] tokens:"<<headTokens.size()<<" buf:"<<buf_index<<"\n";
+    log("~[log] sync("+ std::to_string(i) +")");
+    log("~~[log] tokens:"+ std::to_string(headTokens.size()) +" buf:"+ std::to_string(buf_index));
     if(buf_index + i > headTokens.size()){
-        cout<<"~~~[log] buf_index:"<<buf_index<<"\n";
+        log("~~~[log] buf_index:"+ std::to_string(buf_index));
         int n = (buf_index + i) - (headTokens.size());
         fill(n);
     }
 }
 void Perser::fill(int n){
-    cout<<"~~~~[log] fill("<<n<<")\n";
+    log("~~~~[log] fill("+ std::to_string(n) +")");
     for(int i=0;i < n;i++){
-        std::cout<<"~~~~~[log] fill insert val:"<<tokens.front()<<"\n";
+        log("~~~~~[log] fill insert val:"+ tokens.front().getName());
         headTokens.push_back(tokens.front());
         tokens.pop_front();
     }
 }
 int Perser::mark(){
-    cout<<"~[log] mark buf:"<<buf_index<<endl;
+    log("~[log] mark buf:"+ std::to_string(buf_index));
     markers.push(buf_index);
     return buf_index;    
 }
 void Perser::release(){
     int marker = markers.top();
     markers.pop();
-    cout<<"[log] release maker:"<<marker<<endl;
+    log("[log] release maker:"+ std::to_string(marker));
     seek(marker);
 }
 void Perser::seek(int index){
-    std::cout<<" [log] seek:"<<index<<"\n";
+    log(" [log] seek:"+ std::to_string(index));
     buf_index = index;
 }
 bool Perser::isSpec(){
@@ -62,21 +67,21 @@ bool Perser::isSpec(){
 
 bool Perser::match(Token::Type type){
     Token::Type t = LT(1).getType();
-    std::cout<<"[log] match <R:"<<t<<",P:"<<type<<">\n";  
+    log("[log] match <R:"+ std::to_string(t) +",P:"+ std::to_string(type) +">");  
     if(type==t){//LT(1).getType()){
-        std::cout<<"[log] True\n";
+        log("[log] True");
         nextToken();
         return true;
     }else{
-        std::cout<<"[log] False\n";
+        log("[log] False");
         return false;
     }
 }
 void Perser::nextToken(){
-    std::cout<<"~[log] nextToken buf_index:"<<buf_index+1<<"\n";
+    log("~[log] nextToken");
     buf_index++;
     if(buf_index == headTokens.size() && !isSpec()){
-        std::cout<< "[log] last"<<std::endl;
+        log("[log] last");
         buf_index = 0;
         headTokens.clear(); 
     }else{

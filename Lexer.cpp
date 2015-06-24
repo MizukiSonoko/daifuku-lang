@@ -11,11 +11,16 @@ void Lexer::load(char* filename){
     if(!ifs){
         std::cout<<"cook: error: no such file or directory: '"<<filename<<"'\n";
     }
-    std::cout<<"[log]start analys\n";
+    log("[log]start analys");
     analyze();
 }
 Lexer::~Lexer(){
     ifs.close();
+}
+void Lexer::log(std::string str){
+    if(debug){
+        std::cout<<str<<"\n";
+    }
 }
 
 void Lexer::analyze(){
@@ -32,10 +37,10 @@ void Lexer::analyze(){
         } else if(!buffer.empty()){
 
             if(isNumber(buffer)){
-                std::cout<<"[log] lexer insert(1) type:"<<Token::NUMBER<<","<<buffer<<"\n";
+                log("[log] lexer insert(1) type:"+ std::to_string(Token::NUMBER) +","+ buffer);
                 tokens.push_back(Token(Token::NUMBER,buffer));
             } else {
-                std::cout<<"[log] lexer insert(1) type:"<<Token::IDENTIFIER<<","<<buffer<<"\n";
+                log("[log] lexer insert(1) type:"+ std::to_string(Token::IDENTIFIER) +","+ buffer);
                 tokens.push_back(Token(Token::IDENTIFIER,  buffer));
             }
             buffer.clear();
@@ -90,10 +95,10 @@ void Lexer::analyze(){
             default:
                 if(!buffer.empty()){
                     if(isNumber(buffer[i])){
-                        std::cout<<"[log] lexer insert type:"<<Token::NUMBER<<","<<buffer<<"\n";
+                        log("[log] lexer insert(2) type:"+ std::to_string(Token::NUMBER) +","+ buffer);
                         tokens.push_back(Token(Token::NUMBER,buffer));
                     } else {
-                        std::cout<<"[log] lexer insert type:"<<Token::IDENTIFIER<<","<<buffer<<"\n";
+                        log("[log] lexer insert(2) type:"+ std::to_string(Token::IDENTIFIER) +","+ buffer);
                         tokens.push_back(Token(Token::IDENTIFIER,  buffer));
                     }
                     buffer.clear();

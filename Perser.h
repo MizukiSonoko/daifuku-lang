@@ -21,8 +21,11 @@ class Perser{
     std::vector<Token> headTokens;
     TranslationUnitAST *Ast;
     int buf_index;
+    
+    int debug;
+    void log(std::string);
   public:
-    Perser(std::list<Token>);
+    Perser(std::list<Token>,int debug);
     ~Perser(){
         RELEASE(Ast);
     }
