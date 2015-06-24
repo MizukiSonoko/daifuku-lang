@@ -1,3 +1,5 @@
+#ifndef PROTOTYPE_AST
+#define PROTOTYPE_AST
 
 #include "Ast.h"
 #include <string>
@@ -10,8 +12,8 @@ class PrototypeAST : public BaseAST {
 
   public:
     
-    PrototypeAST(std::string &Name,const std::vector<std::string> &params):
-        Name(name), Params(params){}
+    PrototypeAST(std::string &name,const std::vector<std::string> &params):
+        BaseAST(PrototypeID), Name(name), Params(params){}
 
     std::string getName(){ 
         return Name;
@@ -30,3 +32,4 @@ class PrototypeAST : public BaseAST {
     }
 };
 
+#endif

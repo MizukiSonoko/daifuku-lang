@@ -1,24 +1,40 @@
 
 #include <vector>
+#include "Ast.h"
 #include "FunctionAST.h"
-#include "PrototypeAST.h"
+#include "VariableDeclAST.h"
 
 class TranslationUnitAST{
-    std::vector<PrototypeAST*> Prototypes;
+    std::vector<VariableDeclAST*> VariableDecls;
     std::vector<FunctionAST*>  Functions;
 
   public:
     TranslationUnitAST(){}
-    ~TranslationUnitAST();
+    ~TranslationUnitAST(){
+        for(VariableDeclAST* element : VariableDecls){
+            RELEASE(element);
+        }
+        VariableDecls.clear();
+        for(FunctionAST* element : Functions){
+            RELEASE(element);
+        }
+        Functions.clear();
+    }
     
-    void addPrototype(PrototypeAST *prototype);
-    void addFunction(FunctionAST *function);
+    void addVariableDecl(VariableDeclAST *variableDecl){
+        VariableDecls.push_back( variableDecl );
+    }
+    void addFunction(FunctionAST *function){
+        Functions.push_back( function );
+    }
 
-    bool emplt();
+    bool empty(){
+        return Functions.empty();
+    }
 
     FunctionAST *getFunction(int i){
         if(i < Functions.size()){
-            return Functons.at(i);
+            return Functions.at(i);
         }else{
             return NULL;
         }

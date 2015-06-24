@@ -1,3 +1,5 @@
+#ifndef FUNCTION_STMT_AST
+#define FUNCTION_STMT_AST
 
 #include <vector>
 #include "Ast.h"
@@ -32,3 +34,5 @@ class FunctionStmtAST{
         }
     }
 };
+
+#endif

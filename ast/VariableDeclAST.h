@@ -1,3 +1,5 @@
+#ifndef VARIABLE_DECL_AST
+#define VARIABLE_DECL_AST
 
 #include "Ast.h"
 #include <string>
@@ -14,7 +16,7 @@ class VariableDeclAST : public BaseAST {
 
   public:
     
-    VariableDeclAST(cosnt std::string &name) : BaseAST(VariableDeclID), Name(name){}
+    VariableDeclAST(const std::string &name) : BaseAST(VariableDeclID), Name(name){}
     ~VariableDeclAST(){}
 
     static inline bool classof(VariableDeclAST const*){
@@ -37,3 +39,4 @@ class VariableDeclAST : public BaseAST {
     }
 };
 
+#endif

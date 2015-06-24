@@ -1,3 +1,5 @@
+#ifndef VARIABLE_AST
+#define VARIABLE_AST
 
 #include "Ast.h"
 #include <string>
@@ -24,3 +26,4 @@ class VariableAST : public BaseAST {
     }
 };
 
+#endif

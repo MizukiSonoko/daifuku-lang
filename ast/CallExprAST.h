@@ -1,3 +1,5 @@
+#ifndef CALL_EXPR_AST
+#define PROTOTYPE_AST
 
 #include "Ast.h"
 #include <string>
@@ -35,3 +37,4 @@ class CallExprAST : public BaseAST {
     }
 };
 
+#endif

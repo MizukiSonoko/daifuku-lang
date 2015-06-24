@@ -1,3 +1,5 @@
+#ifndef NUMBER_AST
+#define NUMBER_AST
 
 #include "Ast.h"
 #include <string>
@@ -24,3 +26,4 @@ class NumberAST : public BaseAST {
     }
 };
 
+#endif

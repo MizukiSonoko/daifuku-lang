@@ -1,17 +1,20 @@
+#ifndef BASE_AST
+#define BASE_AST
 
 #define RELEASE(x) if(x!=NULL) delete(x); 
 
 enum AstID { 
     BaseID,
-    VariavleDeclID,
+    VariableDeclID,
     BinaryExprID,
     CallExprID,
     VariableID,
-    NumberID
+    NumberID,
+    PrototypeID
 };
 
 class BaseAST { 
-    AstID id;
+    AstID ID;
 
   public:
 
@@ -22,4 +25,4 @@ class BaseAST {
         return ID;
     }
 };
-
+#endif

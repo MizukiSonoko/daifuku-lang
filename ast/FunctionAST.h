@@ -2,15 +2,20 @@
 #define FUNCTION_AST
 
 #include "PrototypeAST.h"
+#include "FunctionStmtAST.h"
+#include "Ast.h"
 #include <string>
 class FunctionAST{
     PrototypeAST    *Prototype;
     FunctionStmtAST *Body;
 
   public:
-    FunctionAST(PrototypeAST *prototyp, FunctionStmt *body):
+    FunctionAST(PrototypeAST *prototype, FunctionStmtAST *body):
         Prototype(prototype), Body(body){}
-    ~FunctionAST();
+    ~FunctionAST(){
+        RELEASE(Prototype);
+        RELEASE(Body);
+    }
 
     std::string getName(){
         return Prototype->getName();
