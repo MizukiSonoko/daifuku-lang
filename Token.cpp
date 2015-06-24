@@ -19,10 +19,10 @@ Token::Type Token::getType(){
     return type;
 }
 std::ostream& operator<<(std::ostream& os,Token& token){
-    os <<"<"<< token.name <<">";
+    os <<"<"<< token.type <<","<<token.name <<">";
     return os;
 }
 std::ostream& operator<<(std::ostream& os,const Token& token){
-    os <<"<"<< token.name <<">";
+    os <<"<"<< token.type <<","<<token.name <<">";
     return os;
 }

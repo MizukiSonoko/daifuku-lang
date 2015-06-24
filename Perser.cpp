@@ -1,161 +1,48 @@
+
 #include "Perser.h"
-
 #include "Token.h"
+#include "ast/VariableDeclAST.h"
 
-#include <iostream>
-#include <string>
-#include <cstdlib>
-
-#include <stdexcept>
-
-using namespace std;
-
-Perser::Perser(std::list<Token> _tokens){
-    tokens = _tokens;
-    buf_index = 0;
-    cout<<"[log] perser starts"<<endl;
-}
-
-Token Perser::LT(int i){
-    cout<<"~[log] LT("<<i<<")"<<endl;
-    sync(i);
-    cout<<"LT index:"<<buf_index+i-1<<endl;
-    return headTokens[buf_index+i-1];
-}
-
-void Perser::sync(int i){
-    cout<<"~[log] sync("<<i<<")"<<endl;
-    cout<<"~~[log] tokens:"<<headTokens.size()<<" buf:"<<buf_index<<endl;
-    if(buf_index +i  > headTokens.size()  ){
-        cout<<"~~[log] buf_index:"<<buf_index<<endl;
-        int n = (buf_index + i) - (headTokens.size());
-        fill(n);
-    }
-}
-void Perser::fill(int n){
-    cout<<"~[log] fill("<<n<<")"<<endl;
-    for(int i=0;i<n;i++){
-        headTokens.push_back(tokens.front()); 
-    }
-}
-int Perser::mark(){
-    cout<<"~[log] mark"<<endl;
-    markers.push_back(buf_index);
-    return buf_index;    
-}
-void Perser::release(){
-    cout<<"[log] release"<<endl;
-    int marker = markers.front();
-    markers.pop_front();
-    seek(marker);
-}
-void Perser::seek(int index){
-    buf_index = index;
-}
-bool Perser::isSpec(){
-    return markers.size() > 0;
-}
-
-void Perser::match(Token::Type type){
-    if(LT(1).getType()==type){
-        nextToken();
-    }else{
-        //TODO
-        throw "Error no match ";
-    }
-}
-
-void Perser::perse(){
-    try{
-        if(spec_label()){
-            cout<<"[log] label"<<endl;
-            label();match(Token::SEMICOLON);
-        }else if(spec_box()){
-            cout<<"box"<<endl;
-            box();match(Token::SEMICOLON);
-        }else if(spec_daifuku()){
-            cout<<"daifuku"<<endl;
-            daifuku();match(Token::SEMICOLON); 
+bool Perser::perse(){
+    std::cout<<"[log] start perse \n";
+    Ast = new TranslationUnitAST();
+    while(true){ 
+        if(! TranslationUnit()){
+            return false;
         }
-    }catch(string e){
-        cout<<"[Error]"<<e<<endl;
-    }catch(const char* e){
-        cout<<"[Error]"<<e<<endl; 
-    }
+        if(match(Token::FIN)){
+            return true;
+        }
+    }   
+    return false;
 }
-
-bool Perser::spec_label(){
-    bool success = true;
-    mark();
-    try{
-        match(Token::NAME);
-         //TODO
-    }catch(...){
-        success = false; 
-    }
-    release();
-    return success;
-}
-void Perser::label(){
-    //TODO   
-}
-
-bool Perser::spec_box(){
-    bool success = true;
-    mark();
-    try{
+bool Perser::TranslationUnit(){
+    std::cout<<"[log] TranslationUnit\n";
+    if(speculate_Statement()){
+        std::cout<<"[log] Statement\n";
         match(Token::LBRACKET);
-        //TODO    
-    }catch(...){
-        success = false; 
+        VariableDecl();       
+        match(Token::RBRACKET);
+        FunctionStmt();
+        return true;
     }
-    release();
-    return success;
+    return false;
 }
-void Perser::box(){
-    //TODO
+bool Perser::FunctionStmt(){
+    return true;
 }
-bool Perser::spec_daifuku(){
-    bool success = true;
-    mark();
-    try{
-        match(Token::LPARENT);
-        //TODO
-    }catch(...){
-        success = false; 
+bool Perser::VariableDecl(){
+    std::cout<<"[log] VariableDecl\n";
+    if(speculate_VariableDecl()){
+        std::cout<<"[log] VariableDecl_core\n";
+        match(Token::IDENTIFIER);
+        match(Token::EQUAL);
+        match(Token::NUMBER);
+        return true;
     }
-    release();
-    return success;
-}
-void Perser::daifuku(){
-    cout<<"->[log] daifuku"<<endl;
-    match(Token::NAME);
-    match(Token::LPARENT);
-    match(Token::RPARENT);
-
-    //TODO
+    return false;  
+//    VariableDeclAST *variableDecl = new VariableDeclAST();   
 }
 
-/*-- TODO --*/
-void Perser::kawa(){
-}
-void Perser::anko(){
-}
-/*----------*/
 
-void Perser::stat(){
-}
-void Perser::define(){
-}
-void Perser::add(){
-}
-
-void Perser::nextToken(){
-    buf_index++;
-    if(buf_index ==headTokens.size() && !isSpec()){
-        buf_index = 0;
-        headTokens.clear(); 
-    }
-    sync(1);
-}
 

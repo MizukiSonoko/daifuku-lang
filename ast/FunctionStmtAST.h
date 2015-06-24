@@ -11,7 +11,11 @@ class FunctionStmtAST{
 
   public:
     FunctionStmtAST(){}
-    ~FunctionStmtAST();
+    ~FunctionStmtAST(){
+        for(BaseAST* element : StmtLists){
+            RELEASE(element);
+        }
+    }
     
     void addVariableDeclaration(VariableDeclAST *variableDecl);
     void addStatement(BaseAST *stmt){

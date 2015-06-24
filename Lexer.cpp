@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <iterator>
 
@@ -10,7 +11,6 @@ void Lexer::load(char* filename){
     if(!ifs){
         std::cout<<"cook: error: no such file or directory: '"<<filename<<"'\n";
     }
-    
     std::cout<<"[log]start analys\n";
     analyze();
 }
@@ -30,10 +30,13 @@ void Lexer::analyze(){
             buffer += data[i];
             continue;
         } else if(!buffer.empty()){
-            if(isNumber(buffer[i])){
+
+            if(isNumber(buffer)){
+                std::cout<<"[log] lexer insert(1) type:"<<Token::NUMBER<<","<<buffer<<"\n";
                 tokens.push_back(Token(Token::NUMBER,buffer));
             } else {
-                tokens.push_back(Token(Token::NAME,  buffer));
+                std::cout<<"[log] lexer insert(1) type:"<<Token::IDENTIFIER<<","<<buffer<<"\n";
+                tokens.push_back(Token(Token::IDENTIFIER,  buffer));
             }
             buffer.clear();
         }
@@ -87,9 +90,11 @@ void Lexer::analyze(){
             default:
                 if(!buffer.empty()){
                     if(isNumber(buffer[i])){
+                        std::cout<<"[log] lexer insert type:"<<Token::NUMBER<<","<<buffer<<"\n";
                         tokens.push_back(Token(Token::NUMBER,buffer));
                     } else {
-                        tokens.push_back(Token(Token::NAME,  buffer));
+                        std::cout<<"[log] lexer insert type:"<<Token::IDENTIFIER<<","<<buffer<<"\n";
+                        tokens.push_back(Token(Token::IDENTIFIER,  buffer));
                     }
                     buffer.clear();
                 }else{
@@ -107,10 +112,19 @@ bool Lexer::isLetter(char c){
         return true;
     return false;
 }
-bool Lexer::isNumber(char c){
-    if(c>='0'&&c<='9')
-        return true;
-    return false;
+int Lexer::isNumber(std::string s){
+    try{
+        int num = std::stoi(s);
+        return num;
+    }catch(std::invalid_argument e){
+        return 0;
+    }
+}
+int Lexer::isNumber(char c){
+    if ( c >= '0' && c <= '9' ) {
+        return (int)(c - '0');
+    }
+    return 0;
 }
 std::list<Token> Lexer::getTokens(){
     return tokens;
@@ -120,7 +134,7 @@ void Lexer::put_result(){
 
     std::list<Token>::iterator it = tokens.begin();
     while(it!=tokens.end()){
-        std::cout<<(*it).getVal()<<std::endl;
+        std::cout<<(*it)<<std::endl;
         it++;
     }
 }
