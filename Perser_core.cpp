@@ -13,6 +13,7 @@ Perser::Perser(std::list<Token> _tokens, int _debug){
     tokens = _tokens;
     debug  = _debug; 
     buf_index = 0;
+    curString ="";
     log("[log] perser starts");
 }
 void Perser::log(std::string s){
@@ -52,10 +53,13 @@ int Perser::mark(){
     return buf_index;    
 }
 void Perser::release(){
-    int marker = markers.top();
-    markers.pop();
-    log("[log] release maker:"+ std::to_string(marker));
-    seek(marker);
+    log("~[log] release()");
+    if(!markers.empty()){
+        int marker = markers.top();
+        markers.pop();
+        log("[log] release maker:"+ std::to_string(marker));
+        seek(marker);
+    }
 }
 void Perser::seek(int index){
     log(" [log] seek:"+ std::to_string(index));
@@ -66,26 +70,32 @@ bool Perser::isSpec(){
 }
 
 bool Perser::match(Token::Type type){
-    Token::Type t = LT(1).getType();
+    Token  token =  LT(1);
+     
+    curString = token.getName();
+    Token::Type t = token.getType();
+    
     log("[log] match <R:"+ std::to_string(t) +",P:"+ std::to_string(type) +">");  
     if(type==t){//LT(1).getType()){
         log("[log] True");
         nextToken();
+        log("[log] return true");
         return true;
     }else{
         log("[log] False");
         return false;
     }
 }
-void Perser::nextToken(){
+bool Perser::nextToken(){
     log("~[log] nextToken");
     buf_index++;
     if(buf_index == headTokens.size() && !isSpec()){
         log("[log] last");
         buf_index = 0;
-        headTokens.clear(); 
-    }else{
-        sync(1);
+        headTokens.clear();
+        return false; 
     }
+    sync(1);   
+    return true;
 }
 

@@ -36,6 +36,7 @@ bool Perser::VariableDecl(){
     if(speculate_VariableDecl()){
         log("[log] VariableDecl_core");
         match(Token::IDENTIFIER);
+        log("[log] "+curString);
         match(Token::EQUAL);
         match(Token::NUMBER);
         return true;
