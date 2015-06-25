@@ -3,8 +3,12 @@ CC=clang++
 TARGET=cook
 OPTION=-std=c++0x -Wall
 
-TEST_AC=t_accept.recipe
-TEST_WA=t_failed.recipe
+TEST_AC_1=t_accept_1.recipe
+TEST_AC_2=t_accept_2.recipe
+TEST_AC_3=t_accept_3.recipe
+TEST_WA_1=t_failed_1.recipe
+TEST_WA_2=t_failed_2.recipe
+TEST_WA_3=t_failed_3.recipe
 
 all: Token.o Lexer.o Perser.o Perser_core.o Perser_speculate.o test.o
 		$(CC) -O2 -o $(TARGET) $(OPTION) Token.o Lexer.o Perser.o Perser_core.o Perser_speculate.o test.o
@@ -29,8 +33,12 @@ test.o: test.cpp
 		$(CC) $(OPTION) -c test.cpp
 
 test:
-		./$(TARGET) $(TEST_AC)
-		./$(TARGET) $(TEST_WA)
+		./$(TARGET) -i $(TEST_AC_1)
+		./$(TARGET) -i $(TEST_AC_2)
+		./$(TARGET) -i $(TEST_AC_3)
+		./$(TARGET) -i $(TEST_WA_1)
+		./$(TARGET) -i $(TEST_WA_2)
+		./$(TARGET) -i $(TEST_WA_3)
 
 clean:
-		rm -f Token.o Lexer.o Perser.o Test.o Perser_core.o test.o
+		rm -f Token.o Lexer.o Perser.o Test.o Perser_core.o Perser_speculate.o test.o
