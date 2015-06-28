@@ -1,7 +1,7 @@
 #ifndef BINARY_EXPR_AST
 #define BINARY_EXPR_AST
 
-#include "Ast.h"
+#include "Ast.hpp"
 #include <string>
 
 class BinaryExprAST : public BaseAST { 

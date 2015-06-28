@@ -1,7 +1,7 @@
 #ifndef BASE_AST
 #define BASE_AST
 
-#define RELEASE(x) if(x!=NULL) delete(x); 
+#define RELEASE(x) if(x!=nullptr){ delete (x); (x)=nullptr; } 
 
 enum AstID { 
     BaseID,
@@ -19,7 +19,7 @@ class BaseAST {
   public:
 
     BaseAST(AstID id):ID(id){}
-    virtual ~BaseAST();
+    ~BaseAST(){}
     
     AstID getID() const {
         return ID;

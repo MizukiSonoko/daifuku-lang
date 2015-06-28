@@ -4,8 +4,8 @@
 #include <string>
 #include <unistd.h>
 
-#include "Perser.h"
-#include "Lexer.h"
+#include "Perser.hpp"
+#include "Lexer.hpp"
 
 class Manager {
 

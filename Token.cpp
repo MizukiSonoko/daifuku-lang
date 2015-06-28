@@ -1,5 +1,5 @@
 
-#include "Token.h"
+#include "Token.hpp"
 #include <string>
 
 Token::Token(Token::Type t,std::string n){

@@ -1,7 +1,7 @@
 #ifndef PROTOTYPE_AST
 #define PROTOTYPE_AST
 
-#include "Ast.h"
+#include "Ast.hpp"
 #include <string>
 #include <vector>
 

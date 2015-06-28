@@ -1,7 +1,7 @@
 
-#include "Perser.h"
-#include "Token.h"
-#include "ast/VariableDeclAST.h"
+#include "Perser.hpp"
+#include "Token.hpp"
+#include "ast/VariableDeclAST.hpp"
 
 bool Perser::perse(){
     log("[log] start perse");
@@ -36,13 +36,16 @@ bool Perser::VariableDecl(){
     if(speculate_VariableDecl()){
         log("[log] VariableDecl_core");
         match(Token::IDENTIFIER);
+        std::string _identifier = curString;
         log("[log] "+curString);
         match(Token::EQUAL);
         match(Token::NUMBER);
+        int _value = std::stoi(curString);
+        VariableDeclAST* variableDeclAst = new VariableDeclAST(_identifier, _value);
+        Ast->addVariableDecl(variableDeclAst);
         return true;
     }
     return false;  
-//    VariableDeclAST *variableDecl = new VariableDeclAST();   
 }
 
 

@@ -2,8 +2,8 @@
 #define FUNCTION_STMT_AST
 
 #include <vector>
-#include "Ast.h"
-#include "VariableDeclAST.h"
+#include "Ast.hpp"
+#include "VariableDeclAST.hpp"
 
 class FunctionStmtAST{
     std::vector<VariableDeclAST*> VariableDecls;

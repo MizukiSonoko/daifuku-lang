@@ -1,7 +1,7 @@
 #ifndef NUMBER_AST
 #define NUMBER_AST
 
-#include "Ast.h"
+#include "Ast.hpp"
 #include <string>
 
 class NumberAST : public BaseAST { 

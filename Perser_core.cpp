@@ -1,6 +1,6 @@
-#include "Perser.h"
+#include "Perser.hpp"
 
-#include "Token.h"
+#include "Token.hpp"
 
 #include <iostream>
 #include <string>
@@ -21,7 +21,13 @@ void Perser::log(std::string s){
         std::cout<< s << std::endl;
     }
 }
-
+TranslationUnitAST* Perser::getAST(){
+    if(Ast != NULL){
+        return Ast;
+    }
+    return NULL;
+}
+ 
 Token Perser::LT(int i){
     log("~[log] LT("+ std::to_string(i) +")");
     sync(i);

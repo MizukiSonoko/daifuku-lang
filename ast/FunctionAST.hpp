@@ -1,9 +1,9 @@
 #ifndef FUNCTION_AST
 #define FUNCTION_AST
 
-#include "PrototypeAST.h"
-#include "FunctionStmtAST.h"
-#include "Ast.h"
+#include "PrototypeAST.hpp"
+#include "FunctionStmtAST.hpp"
+#include "Ast.hpp"
 #include <string>
 class FunctionAST{
     PrototypeAST    *Prototype;

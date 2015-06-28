@@ -1,25 +1,25 @@
 #ifndef PERSER_H
 #define PERSER_H
 
-
 #include <list>
 #include <stack>
 #include <vector>
 #include <iostream>
 #include <string>
 
-#include "ast/TranslationUnitAST.h"
-#include "ast/Ast.h"
-#include "Token.h"
+#include "ast/TranslationUnitAST.hpp"
+#include "ast/Ast.hpp"
+#include "Token.hpp"
 
 #define BUF_MAX 5
 
 class Perser{
   private:
-    std::list<Token> tokens;
-    std::stack<int>   markers;
+    std::list<Token>       tokens;
+    std::stack<int>       markers;
     std::vector<Token> headTokens;
-    TranslationUnitAST *Ast;
+    std::string         curString;
+    TranslationUnitAST       *Ast;
     int buf_index;
     
     int debug;
@@ -30,7 +30,7 @@ class Perser{
         RELEASE(Ast);
     }
     bool perse();
-    TranslationUnitAST getAST();
+    TranslationUnitAST *getAST();
   private:
 
 
@@ -42,7 +42,7 @@ class Perser{
     bool FunctionStmt();
   
     Token LT(int);
-    void nextToken();
+    bool nextToken();
     bool match(Token::Type);
     void sync(int);
     void fill(int);

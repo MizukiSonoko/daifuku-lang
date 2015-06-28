@@ -1,7 +1,7 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-#include "Token.h"
+#include "Token.hpp"
 
 #include <list>
 #include <fstream>

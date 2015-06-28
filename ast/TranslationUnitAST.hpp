@@ -1,12 +1,12 @@
 
 #include <vector>
-#include "Ast.h"
-#include "FunctionAST.h"
-#include "VariableDeclAST.h"
+#include "Ast.hpp"
+#include "FunctionAST.hpp"
+#include "VariableDeclAST.hpp"
 
 class TranslationUnitAST{
     std::vector<VariableDeclAST*> VariableDecls;
-    std::vector<FunctionAST*>  Functions;
+    //std::vector<FunctionAST*>  Functions;
 
   public:
     TranslationUnitAST(){}
@@ -15,15 +15,18 @@ class TranslationUnitAST{
             RELEASE(element);
         }
         VariableDecls.clear();
+        /*
         for(FunctionAST* element : Functions){
             RELEASE(element);
         }
         Functions.clear();
+        */
     }
     
     void addVariableDecl(VariableDeclAST *variableDecl){
         VariableDecls.push_back( variableDecl );
-    }
+    }  
+/*
     void addFunction(FunctionAST *function){
         Functions.push_back( function );
     }
@@ -31,7 +34,6 @@ class TranslationUnitAST{
     bool empty(){
         return Functions.empty();
     }
-
     FunctionAST *getFunction(int i){
         if(i < Functions.size()){
             return Functions.at(i);
@@ -39,4 +41,5 @@ class TranslationUnitAST{
             return NULL;
         }
     }
+*/
 };

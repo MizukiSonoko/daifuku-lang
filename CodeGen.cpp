@@ -10,7 +10,7 @@
 #include<llvm/IR/ValueSymbolTable.h>
 
 #include <string>
-#include "ast/TranslationUnitAST.h"
+#include "ast/TranslationUnitAST.hpp"
 
 class CodeGen {
   private:
