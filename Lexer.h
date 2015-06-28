@@ -18,7 +18,7 @@ class Lexer{
    public:
     Lexer(int d):debug(d){};
     ~Lexer();
-    void load(char*);
+    void load(std::string);
     void analyze();
     void put_result();
 

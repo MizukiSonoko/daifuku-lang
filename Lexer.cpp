@@ -6,7 +6,7 @@
 #include <string>
 #include <iterator>
 
-void Lexer::load(char* filename){
+void Lexer::load(std::string filename){
     ifs.open(filename);
     if(!ifs){
         std::cout<<"cook: error: no such file or directory: '"<<filename<<"'\n";
