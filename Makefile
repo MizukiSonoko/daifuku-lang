@@ -2,6 +2,7 @@
 CC=clang++
 TARGET=cook
 OPTION=-std=c++0x -Wall
+OPTION_LLVM=-I ~/llvm-3.6.1.src/include/ -D__STDC_CONSTANT_MACROS -D__STDC_LIMIT_MACROS
 
 TEST_AC_1=t_accept_1.recipe
 TEST_AC_2=t_accept_2.recipe
@@ -10,7 +11,7 @@ TEST_WA_1=t_failed_1.recipe
 TEST_WA_2=t_failed_2.recipe
 TEST_WA_3=t_failed_3.recipe
 
-all: Token.o Lexer.o Perser.o Perser_core.o Perser_speculate.o test.o
+all: Token.o Lexer.o Perser.o Perser_core.o Perser_speculate.o test.o CodeGen.o
 		$(CC) -O2 -o $(TARGET) $(OPTION) Token.o Lexer.o Perser.o Perser_core.o Perser_speculate.o test.o
 
 Token.o: Token.cpp
@@ -28,6 +29,8 @@ Perser_core.o: Perser_core.cpp
 Perser_speculate.o: Perser_speculate.cpp
 		$(CC) $(OPTION) -c Perser_speculate.cpp
 
+CodeGen.o: CodeGen.cpp
+		$(CC) $(OPTION) $(OPTION_LLVM) -c CodeGen.cpp
 
 test.o: test.cpp
 		$(CC) $(OPTION) -c test.cpp
