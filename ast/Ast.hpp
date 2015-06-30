@@ -1,7 +1,7 @@
 #ifndef BASE_AST
 #define BASE_AST
 
-#define RELEASE(x) if(x!=nullptr){ delete (x); (x)=nullptr; } 
+#define RELEASE(x) { delete (x); (x)=nullptr; } 
 
 enum AstID { 
     BaseID,

@@ -1,3 +1,5 @@
+#ifndef TRANSLATION_UNIT_AST
+#define TRANSLATION_UNIT_AST
 
 #include <vector>
 #include "Ast.hpp"
@@ -30,16 +32,23 @@ class TranslationUnitAST{
     void addFunction(FunctionAST *function){
         Functions.push_back( function );
     }
+*/
 
     bool empty(){
-        return Functions.empty();
+        return VariableDecls.empty();
     }
-    FunctionAST *getFunction(int i){
-        if(i < Functions.size()){
-            return Functions.at(i);
+
+    int getValiableDeclsize(){
+        return VariableDecls.size();
+    }
+
+    VariableDeclAST *getVariableDecl(int i){
+        if(i < VariableDecls.size()){
+            return VariableDecls.at(i);
         }else{
-            return NULL;
+            return nullptr;
         }
     }
-*/
 };
+
+#endif
