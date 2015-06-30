@@ -1,28 +1,41 @@
 
-#include<llvm/ADT/APInt.h>
-#include<llvm/ExecutionEngine/ExecutionEngine.h>
-#include<llvm/Linker/Linker.h>
-#include<llvm/IR/LLVMContext.h>
-#include<llvm/IR/Module.h>
-#include<llvm/IR/Metadata.h>
-#include<llvm/IR/IRBuilder.h>
-#include<llvm/IR/MDBuilder.h>
-#include<llvm/IR/ValueSymbolTable.h>
+#include "CodeGen.hpp"
 
-#include <string>
-#include "ast/TranslationUnitAST.hpp"
 
-class CodeGen {
-  private:
-    llvm::Module          *Mod;
-    llvm::IRBuilder<> *Builder;
+CodeGen::CodeGen(){
+    builder = new llvm::IRBuilder<>(llvm::getGlobalContext());
+    module = nullptr;
+}
 
-  public:
-    CodeGen(){}
-    ~CodeGen(){}
+CodeGen::~CodeGen(){
+    RELEASE(builder);
+    RELEASE(module);
+}
 
-    bool codeGen(TranslationUnitAST &ast, std::string name);  
-    
-};
+bool CodeGen::codeGen(TranslationUnitAST &ast, std::string name){
+    if(!genTranslationUnit( ast, name)){
+        return false;
+    }
+    return true;
+}
 
+bool CodeGen::genTranslationUnit( TranslationUnitAST ast, std::string name){
+    module = new llvm::Module( name, llvm::getGlobalContext());
+    llvm::Value *value = nullptr;
+    VariableDeclAST *vast;
+    for(int i=0; i <  ast.getValiableDeclsize(); i++){
+        vast = llvm::dyn_cast<VariableDeclAST>( ast.getVariableDecl(i)); 
+        value = genVariableDecl( vast);
+    }
+    return true;
+}
+
+llvm::Value *CodeGen::genVariableDecl( VariableDeclAST *ast){
+    llvm::AllocaInst *alloca = builder -> CreateAlloca(
+        llvm::Type::getInt32Ty( llvm::getGlobalContext()),
+        0,
+        ast -> getName()
+    );
+    return alloca;
+}
 
