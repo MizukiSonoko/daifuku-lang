@@ -13,6 +13,8 @@
 
 #include <string>
 #include "ast/TranslationUnitAST.hpp"
+#include "ast/BinaryExprAST.hpp"
+#include "ast/VariableAST.hpp"
 
 class CodeGen {
   private:
@@ -23,9 +25,11 @@ class CodeGen {
     CodeGen();
     ~CodeGen();
 
-    bool codeGen(TranslationUnitAST &ast, std::string name);  
-    bool genTranslationUnit( TranslationUnitAST ast, std::string name);
+
+    bool codeGen(TranslationUnitAST *ast, std::string name);  
+    bool genTranslationUnit( TranslationUnitAST *ast, std::string name);
     llvm::Value *genVariableDecl( VariableDeclAST *ast);
+    llvm::Value *genBinaryExpr( BinaryExprAST *ast);
 };
 
 #endif

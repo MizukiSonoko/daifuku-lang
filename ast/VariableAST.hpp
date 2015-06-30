@@ -10,7 +10,7 @@ class VariableAST : public BaseAST {
 
   public:
     
-    VariableAST(cosnt std::string &name) : BaseAST(VariableID), Name(name){}
+    VariableAST(const std::string &name) : BaseAST(VariableID), Name(name){}
     ~VariableAST(){}
 
     static inline bool classof(VariableAST const*){
