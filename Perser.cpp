@@ -38,6 +38,8 @@ bool Perser::VariableDecl(){
         match(Token::IDENTIFIER);
         std::string _identifier = curString;
         log("[log] "+curString);
+        VariableTable.push_back(curString);
+
         match(Token::EQUAL);
         match(Token::NUMBER);
         int _value = std::stoi(curString);

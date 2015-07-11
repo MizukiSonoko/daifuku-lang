@@ -20,6 +20,7 @@ void CodeGen::log(std::string s){
     }
 }
 bool CodeGen::codeGen(TranslationUnitAST *ast, std::string name){
+    log("[log] codeGen");
     if(!genTranslationUnit( ast, name)){
         return false;
     }
@@ -35,6 +36,8 @@ llvm::Module &CodeGen::getModule(){
 }
 
 bool CodeGen::genTranslationUnit( TranslationUnitAST *ast, std::string name){
+    log("[log] genTranslationUnit");
+
     module = new llvm::Module( name, llvm::getGlobalContext());
     llvm::Value *value = nullptr;
     VariableDeclAST *vast;

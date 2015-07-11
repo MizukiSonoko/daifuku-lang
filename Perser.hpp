@@ -4,6 +4,7 @@
 #include <list>
 #include <stack>
 #include <vector>
+#include <map>
 #include <iostream>
 #include <string>
 
@@ -21,6 +22,9 @@ class Perser{
     std::string         curString;
     TranslationUnitAST       *Ast;
     int buf_index;
+
+    std::map<std::string, int> FunctionTable;
+    std::vector<std::string> VariableTable;
     
     int debug;
     void log(std::string);
