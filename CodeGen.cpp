@@ -3,6 +3,7 @@
 
 
 CodeGen::CodeGen(){
+    log("[log] start CodeGen");
     builder = new llvm::IRBuilder<>(llvm::getGlobalContext());
     module = nullptr;
 }
@@ -12,11 +13,22 @@ CodeGen::~CodeGen(){
     RELEASE(module);
 }
 
+void CodeGen::log(std::string s){
+        std::cout<< s << std::endl;
+}
 bool CodeGen::codeGen(TranslationUnitAST *ast, std::string name){
     if(!genTranslationUnit( ast, name)){
         return false;
     }
     return true;
+}
+
+llvm::Module &CodeGen::getModule(){
+    if(module != nullptr){
+        return *module;
+    }else{
+        return *(new llvm::Module("null", llvm::getGlobalContext()));
+    }
 }
 
 bool CodeGen::genTranslationUnit( TranslationUnitAST *ast, std::string name){

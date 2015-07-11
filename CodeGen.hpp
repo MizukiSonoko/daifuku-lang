@@ -11,6 +11,15 @@
 #include<llvm/IR/MDBuilder.h>
 #include<llvm/IR/ValueSymbolTable.h>
 
+#include<llvm/Support/Signals.h>
+#include<llvm/PassManager.h>
+#include<llvm/Support/Signals.h>
+#include<llvm/Support/raw_ostream.h>
+#include<llvm/Transforms/Scalar.h>
+#include<llvm/IR/IRPrintingPasses.h>
+
+
+#include <iostream>
 #include <string>
 #include "ast/TranslationUnitAST.hpp"
 #include "ast/BinaryExprAST.hpp"
@@ -21,10 +30,12 @@ class CodeGen {
     llvm::Module          *module;
     llvm::IRBuilder<>    *builder;
 
+    void log(std::string);
   public:
     CodeGen();
     ~CodeGen();
 
+    llvm::Module &getModule();
 
     bool codeGen(TranslationUnitAST *ast, std::string name);  
     bool genTranslationUnit( TranslationUnitAST *ast, std::string name);
