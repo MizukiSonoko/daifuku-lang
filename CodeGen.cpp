@@ -2,7 +2,8 @@
 #include "CodeGen.hpp"
 
 
-CodeGen::CodeGen(){
+CodeGen::CodeGen(int _debug){
+    debug = _debug;
     log("[log] start CodeGen");
     builder = new llvm::IRBuilder<>(llvm::getGlobalContext());
     module = nullptr;
@@ -14,7 +15,9 @@ CodeGen::~CodeGen(){
 }
 
 void CodeGen::log(std::string s){
+    if(debug){
         std::cout<< s << std::endl;
+    }
 }
 bool CodeGen::codeGen(TranslationUnitAST *ast, std::string name){
     if(!genTranslationUnit( ast, name)){

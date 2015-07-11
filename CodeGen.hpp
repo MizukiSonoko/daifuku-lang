@@ -30,9 +30,10 @@ class CodeGen {
     llvm::Module          *module;
     llvm::IRBuilder<>    *builder;
 
+    int debug;
     void log(std::string);
   public:
-    CodeGen();
+    CodeGen(int debug);
     ~CodeGen();
 
     llvm::Module &getModule();

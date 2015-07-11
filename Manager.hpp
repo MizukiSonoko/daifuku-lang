@@ -67,7 +67,7 @@ class Manager {
             return;
         }
         TranslationUnitAST* ast = perser->getAST();
-        CodeGen *codeGen = new CodeGen();
+        CodeGen *codeGen = new CodeGen(debug);
         if(!codeGen->codeGen( ast, input_file)){
             std::cout<<"CodeGen Error!!\n";
             RELEASE(lexer);
