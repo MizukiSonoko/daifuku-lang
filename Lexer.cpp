@@ -7,6 +7,11 @@
 #include <iterator>
 
 void Lexer::load(std::string filename){
+
+    reg_special = std::regex(R"(\W+)");
+    reg_number =  std::regex(R"([0-9]+)");
+    reg_letter =  std::regex(R"([\w]+)");
+
     ifs.open(filename);
     if(!ifs){
         std::cout<<"cook: error: no such file or directory: '"<<filename<<"'\n";
@@ -111,25 +116,24 @@ void Lexer::analyze(){
     tokens.push_back(Token(Token::FIN,"<EOF>"));
 }
 bool Lexer::isLetter(char c){
-    if((c>='a'&&c<='z')||
-       (c>='A'&&c<='Z')||
-       (c=='!'||c=='#'))
+    std::string str({c});
+    if(std::regex_match( str, reg_letter)){
         return true;
+    }
     return false;
 }
-int Lexer::isNumber(std::string s){
-    try{
-        int num = std::stoi(s);
-        return num;
-    }catch(std::invalid_argument e){
-        return 0;
+bool Lexer::isNumber(std::string s){
+    if(std::regex_match( s, reg_number)){
+        return true;
     }
+    return false;
 }
-int Lexer::isNumber(char c){
-    if ( c >= '0' && c <= '9' ) {
-        return (int)(c - '0');
+bool Lexer::isNumber(char c){
+    std::string str({c});
+    if(std::regex_match( str, reg_number)){
+        return true;
     }
-    return 0;
+    return false;
 }
 std::list<Token> Lexer::getTokens(){
     return tokens;

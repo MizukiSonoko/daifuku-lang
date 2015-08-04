@@ -5,9 +5,15 @@
 
 #include <list>
 #include <fstream>
+#include <regex>
 #include <string>
 
 class Lexer{
+
+    std::regex reg_special;
+    std::regex reg_number;
+    std::regex reg_letter;
+
     std::list<Token> tokens;
     std::ifstream ifs;
 
@@ -25,8 +31,8 @@ class Lexer{
     void load_conf();
     std::list<Token> getTokens();
     bool isLetter(char);
-    int  isNumber(char);
-    int  isNumber(std::string);
+    bool  isNumber(char);
+    bool  isNumber(std::string);
 };
 
 #endif
