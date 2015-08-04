@@ -5,8 +5,8 @@ TARGET=cook
 LLVM_CONFIG = llvm-config
 LLVM_FLAGS = --cxxflags --ldflags --libs
 
-OPTION=-std=c++0x -Wall -I /usr/local/llvm/include/ -D__STDC_CONSTANT_MACROS  -D__STDC_LIMIT_MACROS 
-OPTION_LLVM=-std=c++0x -Wall -lpthread -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS  -I /usr/local/llvm/include/ `$(LLVM_CONFIG) $(LLVM_FLAGS)` -ldl
+OPTION=-std=c++1y -Wall -I /usr/local/llvm/include/ -D__STDC_CONSTANT_MACROS  -D__STDC_LIMIT_MACROS 
+OPTION_LLVM=-std=c++1y -Wall -lpthread -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS  -I /usr/local/llvm/include/ `$(LLVM_CONFIG) $(LLVM_FLAGS)` -ldl
 
 
 TEST_AC_1=t_accept_1.recipe
