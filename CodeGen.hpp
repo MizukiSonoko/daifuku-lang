@@ -10,14 +10,11 @@
 #include<llvm/IR/IRBuilder.h>
 #include<llvm/IR/MDBuilder.h>
 #include<llvm/IR/ValueSymbolTable.h>
-
 #include<llvm/Support/Signals.h>
 #include<llvm/PassManager.h>
 #include<llvm/Support/Signals.h>
 #include<llvm/Support/raw_ostream.h>
 #include<llvm/Transforms/Scalar.h>
-#include<llvm/IR/IRPrintingPasses.h>
-
 
 #include <iostream>
 #include <string>
